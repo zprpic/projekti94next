@@ -1,20 +1,43 @@
-const { readFile } = require("fs");
+const { readFile, writeFile } = require("fs").promises;
+/* const util = require("util");
+const readFilePromise = util.promisify(readFile);
+const writeFilePromise = util.promisify(writeFile); */
 
-//started operating process
-console.log("First!");
-setTimeout(() => {
-  console.log("Second!");
-}, 0);
-readFile("content/first.txt", (err, data) => {
-  if (err) {
-    console.log(err);
-    return;
-  } else if (data) {
-    console.log(`Third! Data: ${data} - But actually LAST!`);
+/*  */
+
+const start = async () => {
+  try {
+    const first = await readFile("./content/first.txt", "utf8");
+    const second = await readFile("./content/second.txt", "utf8");
+    await writeFile(
+      "./content/result-mind-grenade.txt",
+      `THIS IS AWESOME: ${(first, second)}`,
+      { flag: "a" }
+    );
+    console.log(first, second);
+  } catch (error) {
+    console.log(error);
   }
-});
-setTimeout(() => {
-  console.log("Fourth!");
-}, 0);
-console.log("Fifth!");
-//completed and exiting operating process
+};
+
+start();
+
+/* const getText = (path) => {
+  return new Promise((resolve, reject) => {
+    readFile(path, "utf8", (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+}; */
+
+/* getText("./content/first.txt")
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((err) => {
+    console.log(err);
+  }); */
